@@ -16,8 +16,10 @@ import plotly.graph_objects as go
 #  HELPER FUNCTIONS.   #
 ############################################################
 def custom_function(timestamp_string):
+    # Make sure timestamp is in string format.
+    timestamp_str = timestamp_string.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
     #print("custom_function timestamp_string: ",timestamp_string.split(" ")[1],"\n")
-    return timestamp_string.split(" ")[1]
+    return timestamp_str.split(" ")[1]
 
 #"04:42:43.358"
 def format_ts_seconds(timestamp_str):
