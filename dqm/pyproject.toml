@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dqm"
-version = "0.0.5"
+version = "0.0.6"
 authors = [
   { name="Shehjar Sadhu", email="shehjar_sadhu@uri.edu" },
 ]
-description = "collection of biblical humans and their family relations"
+description = "A library to analyze the data quality metrics collected via Smasung galaxy smartwatch and computer mouse data"
 readme = "README.md"
 requires-python = ">=3.0"
 classifiers = [
@@ -18,5 +18,5 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/wearablebiosensing/mindgame-study-data-analysis.git"
-Issues = "https://github.com/wearablebiosensing/mindgame-study-data-analysis/issues"
+Homepage = "https://github.com/wearablebiosensing/dqm-lib-smartwatch"
+Issues = "https://github.com/wearablebiosensing/dqm-lib-smartwatch/issues"

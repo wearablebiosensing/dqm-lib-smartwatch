@@ -22,8 +22,6 @@ def format_ts_seconds(timestamp_str):
     #print("format_ts_seconds ():/  timestamp_str: ",timestamp_str,timestamp_str.split(".")[0])
     return timestamp_str.split(".")[0]
 
-
-
 def extract_and_convert(x):
     try:
         return int(x.split("_")[1]) #int(x[1])
@@ -72,23 +70,26 @@ def percentage_missing_hr(df):
     return percentage_missing
 
 # ['x(m/s^2)', 'y(m/s^2)', 'z(m/s^2)', 'internal_ts', 'watch_timestamp',
-# 'relative_timestamp', 'Session_ID', 'PID', 'ts_only', 'ts_seconds']
-                        
+# 'relative_timestamp', 'Session_ID', 'PID', 'ts_only', 'ts_seconds']               
 def snr_gyro(df_gry):
     snr_gyr_x = df_gry["x(rad)"].mean()/df_gry["x(rad)"].std()
     snr_gyr_y = df_gry["y(rad)"].mean()/df_gry["y(rad)"].std()
     snr_gyr_z = df_gry["z(rad)"].mean()/df_gry["z(rad)"].std()
     return snr_gyr_x ,snr_gyr_y,snr_gyr_z
+
 def snr_acc(df_acc):
 
     snr_acc_x = df_acc["x(m/s^2)"].mean()/df_acc["x(m/s^2)"].std()
     snr_acc_y = df_acc["y(m/s^2)"].mean()/df_acc["y(m/s^2)"].std()
     snr_acc_z = df_acc["z(m/s^2)"].mean()/df_acc["z(m/s^2)"].std()
     return snr_acc_x,snr_acc_y,snr_acc_z
-
+# x	y	timestamp	shape	x(px/s^2)	y(px/s^2)
+def snr_mouse(df_mouse):
+    snr_mouse_x = df_mouse["x"].mean()/df_mouse["x"].std()
+    snr_mouse_y = df_mouse["y"].mean()/df_mouse["y"].std()
+    return snr_mouse_x,snr_mouse_y
 
 def percentage_missing_imu(df):
-
     # Create DataFrame
     df = pd.DataFrame(df)
     # Convert watch_timestamp to datetime
@@ -103,6 +104,27 @@ def percentage_missing_imu(df):
     recieved_number_of_samples = df.shape[0]
     percentage_missing=  ((expected_number_of_samples-recieved_number_of_samples)/expected_number_of_samples)*100
     print("Percentage of missing data: ", percentage_missing)
+    return percentage_missing
+
+
+# timestamp format: 
+# "timestamp" 22:16:16:179
+def percentage_missing_mouse(df):
+    TAG = "percentage_missing_mouse()/"
+    # Create DataFrame
+    df = pd.DataFrame(df)
+    # Convert timestamp to datetime
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    # Generate a complete time index.
+    start_time = df.iloc[0]["timestamp"] #df['watch_timestamp'].min()
+    end_time = df.iloc[-1]["timestamp"] #df['watch_timestamp'].max()
+    print(TAG+ "start_time,end_time: ",start_time,end_time)
+    full_time_index = pd.date_range(start=start_time, end=end_time, freq='143ms') # for 7Hz expectation.
+    print(TAG+"df: ",df.shape[0],"len(full_time_index): ",len(full_time_index))
+    expected_number_of_samples = len(full_time_index)
+    recieved_number_of_samples = df.shape[0]
+    percentage_missing=  ((expected_number_of_samples-recieved_number_of_samples)/expected_number_of_samples)*100
+    print(TAG+"Percentage of missing data: ", percentage_missing)
     return percentage_missing
 
 
