@@ -91,8 +91,16 @@ def snr_acc(df_acc):
     return snr_acc_x,snr_acc_y,snr_acc_z
 # x	y	timestamp	shape	x(px/s^2)	y(px/s^2)
 def snr_mouse(df_mouse):
-    snr_mouse_x = df_mouse["x"].mean()/df_mouse["x"].std()
-    snr_mouse_y = df_mouse["y"].mean()/df_mouse["y"].std()
+    try:
+        snr_mouse_x = df_mouse["x"].mean()/df_mouse["x"].std()
+        snr_mouse_y = df_mouse["y"].mean()/df_mouse["y"].std()
+    except TypeError as e:
+        snr_mouse_x = -100
+        snr_mouse_y = -100
+        # Handle the specific error
+        print(f"Error occurred: {e}")
+
+
     return snr_mouse_x,snr_mouse_y
 
 def percentage_missing_imu(df):
