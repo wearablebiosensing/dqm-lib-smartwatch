@@ -12,11 +12,17 @@ import pytz
 #  HELPER FUNCTIONS.   #
 ############################################################
 def custom_function(timestamp_string):
+    # try:
+    #     return int(x.split("_")[1]) #int(x[1])
+    # except (IndexError, ValueError):
+    #     return None  # or any default value you prefer.
+    
     # Make sure timestamp is in string format.
     timestamp_str = timestamp_string.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
     #print("custom_function timestamp_string: ",timestamp_string.split(" ")[1],"\n")
     return timestamp_str.split(" ")[1]
 
+    
 #"04:42:43.358"
 def format_ts_seconds(timestamp_str):
     #print("format_ts_seconds ():/  timestamp_str: ",timestamp_str,timestamp_str.split(".")[0])
@@ -113,8 +119,11 @@ def percentage_missing_mouse(df):
     TAG = "percentage_missing_mouse()/"
     # Create DataFrame
     df = pd.DataFrame(df)
+    df['timestamp'] = df['timestamp'].str.replace(r'(\d+:\d+:\d+):(\d+)', r'\1.\2', regex=True)
+    # Convert to datetime
+    df['timestamp'] = pd.to_datetime(df['timestamp'], format='%H:%M:%S.%f')
     # Convert timestamp to datetime
-    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    # df['timestamp'] = pd.to_datetime(df['timestamp'])
     # Generate a complete time index.
     start_time = df.iloc[0]["timestamp"] #df['watch_timestamp'].min()
     end_time = df.iloc[-1]["timestamp"] #df['watch_timestamp'].max()
