@@ -20,7 +20,7 @@ The DQM (Data Quality Monitoring) library for smartwatches is designed to monito
 
 To install the DQM library, you can use pip:
 
-```sh pip install dqm-lib-smartwatch``
+```pip install --upgrade dqm```
 ## Usage 
 Here is a basic example of how to use the DQM library for monitoring data quality:
 
@@ -29,17 +29,13 @@ from dqm_lib_smartwatch import DQM
 
 # Initialize the DQM object
 ```
-dqm = DQM()
+import dqm
 # Load your smartwatch data
 data = load_smartwatch_data('path_to_data_file')
 # Assess data quality
-quality_report = dqm.assess_quality(data)
+ sample_rate_consistency = dqm.calculate_src(data)
 # Print the quality report
-print(quality_report)
-# Clean the data
-cleaned_data = dqm.clean_data(data)
-# Use the cleaned data for further analysis
-analyze_data(cleaned_data)
+print(sample_rate_consistency)
 ```
 
 ## Contribution
