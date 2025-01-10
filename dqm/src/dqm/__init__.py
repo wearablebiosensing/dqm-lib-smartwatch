@@ -6,6 +6,7 @@ import re
 from datetime import datetime
 from shutil import move
 import pytz
+from scipy.special import expit as sigmoid
 
 
 ############################################################
@@ -56,6 +57,7 @@ def snr_hr(df_hr):
         print(f"Error occurred: {e}")
 
     return snr_value
+
 
 def percentage_missing_hr(df):
 
@@ -145,3 +147,32 @@ def percentage_missing_mouse(df):
     return percentage_missing
 
 
+
+def calculate_src(df):
+    """
+    Calculate Sampling Rate Consistency (SRC) from a DataFrame containing timestamps.
+
+    Parameters:
+        df (pd.DataFrame): A DataFrame with a column 'watch_timestamp' in datetime format.
+
+    Returns:
+        float: The SRC value.
+    """
+    # Convert 'watch_timestamp' to pandas datetime if not already
+    if not np.issubdtype(df['watch_timestamp'].dtype, np.datetime64):
+        df['watch_timestamp'] = pd.to_datetime(df['watch_timestamp'])
+
+    # Calculate sampling intervals (difference in seconds between consecutive timestamps)
+    df['sampling_interval'] = df['watch_timestamp'].diff().dt.total_seconds()
+
+    # Remove the first row with NaN sampling interval
+    sampling_intervals = df['sampling_interval'].dropna()
+
+    # Calculate standard deviation and mean of sampling intervals
+    sigma_ts = sampling_intervals.std()
+    t_bar_s = sampling_intervals.mean()
+
+    # Calculate SRC using the formula
+    src = 2 * (1 - sigmoid(sigma_ts / t_bar_s))
+
+    return src
