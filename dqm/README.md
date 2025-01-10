@@ -28,22 +28,19 @@ Here is a basic example of how to use the DQM library for monitoring data qualit
 from dqm_lib_smartwatch import DQM
 
 # Initialize the DQM object
-```dqm = DQM()```
-
+```
+dqm = DQM()
 # Load your smartwatch data
-```data = load_smartwatch_data('path_to_data_file')```
-
+data = load_smartwatch_data('path_to_data_file')
 # Assess data quality
-```quality_report = dqm.assess_quality(data)```
-
+quality_report = dqm.assess_quality(data)
 # Print the quality report
-```print(quality_report)```
-
+print(quality_report)
 # Clean the data
-```cleaned_data = dqm.clean_data(data)```
-
+cleaned_data = dqm.clean_data(data)
 # Use the cleaned data for further analysis
-```analyze_data(cleaned_data)```
+analyze_data(cleaned_data)
+```
 
 ## Contribution
 For detailed documentation and API reference, please visit the official documentation.
